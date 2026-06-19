@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static',filename = 'css/dashboard.css')}}">
+
+</head>
+
+<body>
+    <div class="body-wrapper min-h-screen flex justify-center items-center p-4">
+        <div class="weather-widget-container relative w-full max-w-sm sm:max-w-md">
+            <div
+                class="weather-widget relative text-white bg-gradient-to-br from-purple-700/70 via-indigo-800/60 to-blue-900/70 backdrop-blur-lg shadow-2xl rounded-3xl p-6 overflow-hidden border border-white/10">
+                <form action="" method="POST">
+                    <input type="text" name="city" class="absolute right-7 top-5 h-10 w-full max-w-[150px] sm:max-w-[180px] md:max-w-[220px] p-3 rounded-xl z-50 text-white placeholder-gray-200 bg-white/20 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-white" placeholder="Enter city" required>
+                </form>
+                {% if weather %}
+                {% if weather.error %}
+                    <p class="text-red-300 text-lg">{{ weather.error }}</p>
+                {% else %}
+                <div class="relative z-20">
+                    <div class="date-time text-sm font-light opacity-80 mb-1 tracking-wide animate-fadeInUp"
+                        id="dateTime">{{weather.day}}, {{weather.current_time}}</div>
+
+                    <div class="current-weather flex items-center mb-2">
+
+                    </div>
+
+                    <div class="location text-lg opacity-90 mb-4 tracking-wide animate-fadeInUp delay-200"
+                        id="location">{{weather.city}}, {{weather.country}}</div>
+
+                    <div
+                        class="sun-info bg-black/30 backdrop-blur-sm rounded-2xl p-3 sm:p-4 flex justify-between items-center mb-4 border border-white/10 shadow-md animate-fadeInUp delay-300">
+                        <div class="sunrise text-center">
+                            <div class="sun-icon text-xl mb-1">🌅</div>
+                            <div class="text-xs opacity-80" id="sunriseTime">Sunrise</div>
+                            <div class="text-xs opacity-80" id="sunriseTime">{{weather.sunrise}}</div>
+                        </div>
+                        <div class="day-length text-center text-sm opacity-90" id="dayLength">
+                            {{weather.time_since_sunrise}}</div>
+                        <div class="sunset text-center">
+                            <div class="sun-icon text-xl mb-1">🌇</div>
+                            <div class="text-xs opacity-80" id="sunsetTime">Sunset</div>
+                            <div class="text-xs opacity-80" id="sunsetTime">{{weather.sunset}}</div>
+                        </div>
+                    </div>
+                    <div
+                        class="precipitation bg-white/10 backdrop-blur-sm rounded-xl p-3 flex items-center mb-4 border border-white/5 shadow-sm animate-fadeInUp delay-400">
+                        <div class="precip-icon text-2xl mr-2 text-blue-300 drop-shadow-lg animate-gentleBob"><img
+                                src="{{ weather.icon }}" alt="weather icon"></div>
+                        <div class="flex flex-col gap-1">
+                            <div class="temp text-2xl font-semibold">
+                                <span
+                                    class="bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300 animate-fadeInScaleUp delay-100"
+                                    id="temperature">{{weather.temp}}°C</span>
+                            </div>
+                            <div class="text-sm opacity-90 display" id="precipitationChance">{{weather.current_weather
+                                |title()}}
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="relative">
+
+                        <div
+                            class="humidity-wind flex items-center justify-between text-sm opacity-90 mb-5 animate-fadeInUp delay-500">
+
+                            <div id="humidity">💧 Humidity: {{weather.humidity}}%</div>
+
+                            <button id="toggleBtn" onclick="toggleDetails()"
+                                class="mx-3 mt-10 transition-transform duration-300">
+
+                                <svg id="arrowIcon" xmlns="http://www.w3.org/2000/svg"
+                                    class="w-5 h-5   transition-transform duration-300" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+
+                                </svg>
+
+                            </button>
+
+                            <div id="windSpeed">🌬️ Wind: {{weather.wind}} km/h</div>
+                        </div>
+
+                        <div id="detailsPanel"
+                            class="absolute left-0 right-0 top-full mt-2 bg-white/10 backdrop-blur-lg rounded-2xl p-4 text-white max-h-0 opacity-0 transition-all duration-300 ease-in-out z-40">
+                            <div class="grid grid-cols-2 gap-3 text-sm">
+
+                                <p>🌡️ Feels like : {{ weather.feels_like }}°C</p>
+                                <p>📉 Min : {{ weather.temp_min }}°C</p>
+                                <p>📈 Max : {{ weather.temp_max }}°C</p>
+                                <p>☁️ Clouds : {{ weather.clouds }}%</p>
+                                <p>👁️ Visibility : {{ weather.visibility }} km</p>
+                                <p>🧭 Wind Direction : {{ weather.wind_dir }}</p>
+                                <p>⚖️ pressure : {{ weather.pressure }} hPa</p>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                  
+                    <div class="forecast flex flex-nowrap justify-between pb-2">
+                        {% for f in forecast %}
+                        <div
+                            class="forecast-day bg-white/5 backdrop-blur-sm rounded-xl p-3 w-20 text-center border border-white/10 shadow-sm hover:bg-white/10 transition-all duration-200 cursor-pointer transform hover:-translate-y-1 animate-fadeInUp delay-500">
+                            {% if loop.index == 1 %}
+                            <div class="day-name text-xs font-medium mb-1 opacity-80">Tomorrow</div>
+                            {%else%}
+                            <div class="day-name text-xs font-medium mb-1 opacity-80">{{f.day}}</div>
+                            {%endif%}
+                            <div class="forecast-icon text-2xl my-1 drop-shadow-md"><img src="{{ f.icon }}"
+                                    alt="weather icon"></div>
+                            <div
+                                class="high-temp text-sm font-semibold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">
+                                {{f.temp}}°C</div>
+                            <div class="low-temp text-xs opacity-70">{{f.description |title() }}</div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        function toggleDetails() {
+            const panel = document.getElementById("detailsPanel");
+            const arrow = document.getElementById("arrowIcon");
+
+            if (panel.classList.contains("max-h-0")) {
+                panel.classList.remove("max-h-0");
+                panel.classList.add("max-h-[180px]", "opacity-100");
+            } else {
+                panel.classList.remove("max-h-[180px]", "opacity-100");
+                panel.classList.add("max-h-0");
+            }
+
+            arrow.classList.toggle("rotate-180");
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual Environment
+venv/
+mausam_env/
+
+# Environment variables
+.env
+
+# Flask
+instance/
+.webassets-cache
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
+.vscode/
+.idea/
+
+# PyCharm
+*.iml
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# SQLite database
+*.db
