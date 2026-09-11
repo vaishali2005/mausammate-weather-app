@@ -3,9 +3,10 @@
 A simple and elegant **Flask-based weather web application** that fetches real-time weather data using an external API and displays it through a clean and interactive user interface.
 
 ---
-🌐 Live Demo
+## 🌐 Live Demo
 
-MausamMate — Live Demo - https://mausammate-weather-app.onrender.com
+**MausamMate — Live Demo** - https://mausammate-weather-app.onrender.com
+
 ---
 ## 🚀 Features
 
