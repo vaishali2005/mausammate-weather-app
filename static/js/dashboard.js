@@ -211,3 +211,74 @@ if (container) {
     console.error("Cloud container (id: 'cloud-container') not found! 3D cloud animation will not be initialized.");
 }
 
+
+    const forecast = document.querySelector(".forecast");
+
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    forecast.addEventListener("mousedown", (e) => {
+        isDown = true;
+        forecast.classList.add("cursor-grabbing");
+
+        startX = e.pageX - forecast.offsetLeft;
+        scrollLeft = forecast.scrollLeft;
+    });
+
+    forecast.addEventListener("mouseleave", () => {
+        isDown = false;
+        forecast.classList.remove("cursor-grabbing");
+    });
+
+    forecast.addEventListener("mouseup", () => {
+        isDown = false;
+        forecast.classList.remove("cursor-grabbing");
+    });
+
+    forecast.addEventListener("mousemove", (e) => {
+        if (!isDown) return;
+
+        e.preventDefault();
+
+        const x = e.pageX - forecast.offsetLeft;
+        const walk = (x - startX) * 1.5;
+
+        forecast.scrollLeft = scrollLeft - walk;
+    });
+
+    function toggleDetails() {
+    const panel = document.getElementById("detailsPanel");
+    const arrow = document.getElementById("arrowIcon");
+
+    if (panel.classList.contains("max-h-0")) {
+
+        panel.classList.remove(
+            "max-h-0",
+            "opacity-0",
+            "pointer-events-none"
+        );
+
+        panel.classList.add(
+            "max-h-[180px]",
+            "opacity-100",
+            "pointer-events-auto"
+        );
+
+    } else {
+
+        panel.classList.remove(
+            "max-h-[180px]",
+            "opacity-100",
+            "pointer-events-auto"
+        );
+
+        panel.classList.add(
+            "max-h-0",
+            "opacity-0",
+            "pointer-events-none"
+        );
+    }
+
+    arrow.classList.toggle("rotate-180");
+}
