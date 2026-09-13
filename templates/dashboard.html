@@ -16,11 +16,13 @@
             <div
                 class="weather-widget relative text-white bg-gradient-to-br from-purple-700/70 via-indigo-800/60 to-blue-900/70 backdrop-blur-lg shadow-2xl rounded-3xl p-6 overflow-hidden border border-white/10">
                 <form action="" method="POST">
-                    <input type="text" name="city" class="absolute right-7 top-5 h-10 w-full max-w-[150px] sm:max-w-[180px] md:max-w-[220px] p-3 rounded-xl z-50 text-white placeholder-gray-200 bg-white/20 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-white" placeholder="Enter city" required>
+                    <input type="text" name="city"
+                        class="absolute right-7 top-5 h-10 w-full max-w-[150px] sm:max-w-[180px] md:max-w-[220px] p-3 rounded-xl z-50 text-white placeholder-gray-200 bg-white/20 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-white"
+                        placeholder="Enter city" required>
                 </form>
                 {% if weather %}
                 {% if weather.error %}
-                    <p class="text-red-300 text-lg">{{ weather.error }}</p>
+                <p class="text-red-300 text-lg">{{ weather.error }}</p>
                 {% else %}
                 <div class="relative z-20">
                     <div class="date-time text-sm font-light opacity-80 mb-1 tracking-wide animate-fadeInUp"
@@ -107,11 +109,21 @@
                     </div>
                     {% endif %}
                     {% endif %}
-                  
-                    <div class="forecast flex flex-nowrap justify-between pb-2">
+
+                    <div class="forecast flex flex-nowrap gap-2 overflow-x-auto pb-2">
                         {% for f in forecast[:4] %}
-                        <div
-                            class="forecast-day bg-white/5 backdrop-blur-sm rounded-xl p-3 w-20 text-center border border-white/10 shadow-sm hover:bg-white/10 transition-all duration-200 cursor-pointer transform hover:-translate-y-1 animate-fadeInUp delay-500">
+                        <div class="forecast-day flex-shrink-0
+        bg-white/5 backdrop-blur-sm
+        rounded-xl p-3
+        w-20
+        text-center
+        border border-white/10
+        shadow-sm
+        hover:bg-white/10
+        transition-all duration-200
+        cursor-pointer
+        transform hover:-translate-y-1
+        animate-fadeInUp delay-500">
                             {% if loop.index == 1 %}
                             <div class="day-name text-xs font-medium mb-1 opacity-80">Tomorrow</div>
                             {%else%}
